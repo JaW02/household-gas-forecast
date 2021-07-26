@@ -1,3 +1,3 @@
 # Household Gas Usage Forecast & Optimisation App
 ## Introduction
-The idea behind this project was to forecast future household gas consumption for central heating and provide an optimisation app that allows the homeowner to apply a cost threshold to the gas consumption in order to have more control over household energy bills.
+No one likes the surprise of opening their latest energy bill to find that the cost is increasing because the latest energy readings show a rise in usage. With this in mind the idea behind this project was to forecast future household gas consumption for central heating from previous household gas usage data, and using the usage pattern from the future forecast provide an optimisation app that allows the homeowner to apply a cost threshold to their gas consumption in order to have more control and aid in keeping household energy bills down.
