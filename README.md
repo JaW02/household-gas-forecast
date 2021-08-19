@@ -18,6 +18,10 @@ The types of features engineered in modelling as a regression problem were; aver
 
 ## EDA
 
+![Alt](visuals/date_month_tempc_interaction.png)
+
+![Alt](visuals/seasonal_mnthly_gas_usage.png)
+
 ## Modelling
 
 ## Results
