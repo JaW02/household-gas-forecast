@@ -21,6 +21,8 @@ As could be expected seasonality has high impact on the amount of gas used for c
 
 *Figures 1 & 2*
 
+![Alt](visuals/seasonal_interactions.png)
+
 As can be seen summer occupies the low range of gas usage whilst winter occupies the high range of gas usage, spring and autumn have a fairly similar spread.
 
 *Fig. 3*
