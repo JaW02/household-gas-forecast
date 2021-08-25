@@ -48,6 +48,10 @@ Although this has been modelled as a standard regression problem its essence is 
 Tuning the hyperparameters of our tree based models involved tuning tree specific parameters which affect each individual tree in the model, boosting parameters which affect the boosting operation of the model and miscellaneous parameters which affect the overall performance of the model. The most important tree specific parameters are; min_samples_split - the minimum number of samples before a split can be considered, min_samples_leaf - the minimum number of samples required in a terminal node or leaf, max_depth - the maximum depth of a tree, max_features - the maximum number of randomly selected features for each tree to consider and ccp_alpha - prunes the tree and helps avoid overfitting. Boosting parameters include learning_rate - determines the rate at which the model learns, n_estimators - the number of sequential trees to be modeled (learning_rate and n_estimators are usually tuned in conjunction as to avoid overfitting) and subsample - the fraction of random samples to be selected for each tree. All hyperparameter tuning was performed using bayesian optimisation with an expanding window cross validation and a fixed random_state for model comparison, all models increased their performance after hyperparameter tuning. A variety of ensembling methods were used to see if we could gain anymore performance from the models, the methods used were; voting, bagging and optimised weighting. The optimised weighting of the models performed best out of the three and increased performance, the final model test included the gradient boosting, extra trees and optimised weighting models to see which model performed best overall on the test data.
 
 ## Results
+AS can be seen in fig. 6, from the final test on unseen data it is evident that all models have captured the seasonal trend of gas usage and there is not much in it when comparing the models performance. On evaluating the performance of the models
+
+*fig. 6*
+![Alt](visuals/final_model_test.png)
 
 ## Conclusion
 
