@@ -55,6 +55,10 @@ AS can be seen in fig. 6, from the final test on unseen data it is evident that 
 ![Alt](visuals/final_model_test.png)
 
 ## Conclusion
-The goal of this project was to accurately forecast future gas consumption for household central heating usage from previous years gas consumption. This would give more control to the homeowner by providing insights to their own central heating usage aswell as helping the homeowner to reduce the cost of their gas usage. Future forecasts and gas consumption insights would be provided in the form of an interactive app that the homeowner could use to see future usage/costs aswell as cost thresholding to help the homeowner bring costs down aswell as help the environment, usage metrics will also be provided along side.
+The goal of this project was to accurately forecast future gas consumption for household central heating usage from previous years gas consumption. This would give more control to the homeowner by providing insights to their own central heating usage aswell as helping the homeowner to reduce the cost of their gas usage. Future forecasts and gas consumption insights would be provided in the form of an interactive app that the homeowner could use to see future usage/costs aswell as cost thresholding to help the homeowner bring costs down aswell as help the environment, usage metrics will also be provided along side, see fig. 7.
+
+*fig. 7 top left graph shows predicted forecast, cost optimised and live usage. Top right shows live consumption and cost, bar chart shows difference between live usage and cost optimised. Across the bottom shows monthly cost optimised gas amounts, average monthly gas usage amounts and live seasonal usage, average seasonal percentage of use and live seasonal percentage of use.*
+
+![Alt](visuals/optimisation_app.png)
 
 ## Future Improvements
