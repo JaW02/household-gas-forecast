@@ -61,4 +61,6 @@ The goal of this project was to accurately forecast future gas consumption for h
 
 ![Alt](visuals/optimisation_app.png)
 
+Initially the problem was cast as time series modelling but was reworked into a regression problem with the use of lag features and expanding means, this was to see if a better model could be obtained by using more information on the target, this proved to be the best option. It was found that month was the top correlating feature which was to be expected as we are modelling total monthly gas usage and also because it acts as a proxy variable for temperature and season.
+
 ## Future Improvements
