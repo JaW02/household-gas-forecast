@@ -46,13 +46,15 @@ From visual inspection no features appear to be normally distributed and this wa
 ### *Time Series Specific*
 As can be seen from the autocorrelation plot in fig 6, we can see strong positive correlation with a lag of 12 months and a strong negative correlation with a lag of 6 months. This means that future month values are strongly correlated with prior 12 month values and prior 6 month values.
 
-*include autocorrelation plot*
+*Figure 6*
+![Alt](visuals/autocorrelation.png)
 
 An initial stationarity test of splitting the data in two then comparing the means and variance showed consistancy in the means and variance, as a first glance it suggests the data is fairly stationary. This was then backed up by the Dickey-Fuller test which tests for stationarity within data, the null hypothesis states that the data is not stationary and the alternative states that the data is stationary. From the test we can say with 99% confidence that the data is stationary with the p-value well below 0.01. Making the data stationary makes it easier for statistical models to model the signal of the data and not the noise, this enables th emodels to make better predictions.
 
 Fig. 7 shows the deomposition of the data, the decomposition splits the data into trend, seasonal and residual components, this can be used to remove trend and seasonality to make the data stationary. From the trend component there is not a clear trend line, it starts off unstable then turns more consistent over the last two years, as there is no clear trend to the data it seems reasonable to leave the trend within the data. The seasonal component shows clear seasonality which was to be expected but as this is essentially the same as the data if we were to model seasonality we will essentially be modelling the data, if there were more data points and noise within our data we could model seasonality and remove it from the data. The residual component shows the variance amongst the residuals is relatively homoskedastic, if there was strong hetroskedasticity then more information is needed to explain the variance of the data, i.e. more predictors. From this decomposition it is fair to assume the data is stationary which is backs up  the Dickey-Fuller test.
 
-*include decomposition plots*
+*Figure 7*
+![Alt](visuals/original_decomp.png)
 
 ## Baseline
 As we have no outliers present in the data RMSE will be a good performance metric to evaluate our models with. Using the average gas usage as a performance baseline we get an RMSE of approx. 83.34, Using the sine and cosine transform of date_month we obtained a simple decision tree model RMSE of approx. 26.62, this means on average we can expect a prediction error of 26.62 meters cubed of gas per month. Using the monthly averages as a model we can produce an RMSE score of 18.22, as can be seen more skill is needed than a simple model to perform better than the monthly averages model. 
