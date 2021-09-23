@@ -9,10 +9,10 @@ With the above in mind the idea behind this project was to forecast future house
 The data were obtained online from kaggle and were in SQL format, the data provided household energy readings, exterior temperature and interior temperature readings from 2013 up until 2019 with a total of over 1.5 million readings. As the readings were recorded sequentially the singular readings (e.g. electricuty consumption, gas consumption, room temps, outside temp) were extracted in SQL to create seperate datasets of each reading source so that the correct data could be acquired, then using pandas the data were aggregated to average monthly temperature readings and total gas consumption bringing the data down to a total of 62 observations. The time series data consisted of the datetime feature as the index with the total monthy gas consumption as the target, for modelling the time series data as a regression problem lag features for gas consumption were engineered aswell as extracting month and year from the datetime feature. Also season, average outside temperature and the cyclical nature of season and month using their sin and cosine were initially included.
 
 ![Alt](visuals/initial_time_series_data.png)
-*initial data head for time series data - gas consumption only*
+*initial data head for time series data - gas consumption only before monthly aggregation*
 
 ![Alt](visuals/initial_supervised_data.png)
-*initial data head for supervised data - gas consumption, outside temperature and initial feature engineering*
+*initial data head for supervised data - gas consumption, outside temperature and initial feature engineering after monthly aggregation*
 
 ## Preprocessing // Feature Engineering
 ### *Time Series Modelling*
@@ -48,17 +48,15 @@ From visual inspection no features appear to be normally distributed and this wa
 ### *Time Series Specific*
 As can be seen from the autocorrelation plot in fig 6, we can see strong positive correlation with a lag of 12 months and a strong negative correlation with a lag of 6 months. This means that future month values are strongly correlated with prior 12 month values and prior 6 month values.
 
-*Figure 6*
+*Fig. 6, data autocorrelation plot*
 ![Alt](visuals/autocorrelation.png)
-*data autocorrelation plot*
 
 An initial stationarity test of splitting the data in two then comparing the means and variance showed consistancy in the means and variance, as a first glance it suggests the data is fairly stationary. This was then backed up by the Dickey-Fuller test which tests for stationarity within data, the null hypothesis states that the data is not stationary and the alternative states that the data is stationary. From the test we can say with 99% confidence that the data is stationary with the p-value well below 0.01. Making the data stationary makes it easier for statistical models to model the signal of the data and not the noise, this enables th emodels to make better predictions.
 
 Fig. 7 shows the deomposition of the data, the decomposition splits the data into trend, seasonal and residual components, this can be used to remove trend and seasonality to make the data stationary. From the trend component there is not a clear trend line, it starts off unstable then turns more consistent over the last two years, as there is no clear trend to the data it seems reasonable to leave the trend within the data. The seasonal component shows clear seasonality which was to be expected but as this is essentially the same as the data if we were to model seasonality we will essentially be modelling the data, if there were more data points and noise within our data we could model seasonality and remove it from the data. The residual component shows the variance amongst the residuals is relatively homoskedastic, if there was strong hetroskedasticity then more information is needed to explain the variance of the data, i.e. more predictors. From this decomposition it is fair to assume the data is stationary which is backs up  the Dickey-Fuller test.
 
-*Figure 7*
+*Fig. 7, decomposition of the data; orignal data, trend, seasonal and residual components respectively*
 ![Alt](visuals/original_decomp.png)
-*decomposition of the data; orignal data, trend, seasonal and residual components respectively*
 
 ## Baseline
 As we have no outliers present in the data RMSE will be a good performance metric to evaluate our models with. Using the average gas usage as a performance baseline we get an RMSE of approx. 83.34, Using the sine and cosine transform of date_month we obtained a simple decision tree model RMSE of approx. 26.62, this means on average we can expect a prediction error of 26.62 meters cubed of gas per month. Using the monthly averages as a model we can produce an RMSE score of 18.22, as can be seen more skill is needed than a simple model to perform better than the monthly averages model. 
@@ -69,10 +67,10 @@ As we have no outliers present in the data RMSE will be a good performance metri
 
 As the data shows to be extremely cyclical, modelling initially started with fitting a 9th degree polynomial curve to the data which can be seen in figure 8. A degree of 9 was chosen through trial and error and the curve approximated the training data fairly well. The next model tested was ARIMA (auto regressive intergrated moving average), after tuning the order parameter the best performing arima model had an autoregressive parameter of 2, integration parameter of 0 and moving average parameter of 5, officially this is the ARMA model. The last time series model tested was prophet, with its simplicity of use the only parameters that were tuned were; changepoint_prior_scale which determines the flexibility of the trend and how much the trend changes and seasonality_prior_scale which controls the flexibility of the seasonality. the optimal inputs for the changepoint and seasonality prior scales were 0.001 and 0.1 respectively.
 
-*fig. 8*
+*fig. 8, modelling the data with a polynomial curve*
 
 ![ALt](visuals/polynomial_curve_estimation.png)
-*modelling the data with a polynomial curve*
+
 
 
 ### *Supervised Modelling*
@@ -87,19 +85,17 @@ Tuning the hyperparameters of our tree based models involved tuning tree specifi
 
 As can be seen in fig. 8, the polynomial curve and prophet model have captured the seasonal trend of gas usage but the ARMA model although capturing the nature of the trend isn't as fitting as the other two models. Evaluating the performance of the models it is evident that the ARMA model performed the worst with an RMSE score of 21.652, the polynomial curve obtained the best RMSE score of 18.45 and R2 score of approx. 0.92. The prophet model obtained an RMSE score of approx. 19.81 and r2 score of approx. 0.91, as can be seen none of the time series models obtained a better RMSE score than the monthly average baseline model.
 
-*fig. 9*
+*fig. 9, time series model predictions vs actual gas usage*
 
 ![Alt](visuals/time_series_final_models.png)
-*time series model predictions vs actual gas usage*
 
 ### *Supervised Modelling*
 
 AS can be seen in fig. 9, from the final test on unseen data it is evident that all models have captured the seasonal trend of gas usage and there is not much in it when comparing the models performance. On evaluating the performance of the models our gradient boosting model came out on top with an RMSE of approx. 15.46 and an R2 score of approx. 0.95, our optimised weighted ensemble obtained an RMSE of approx. 17 and an R2 score of approx. 0.94, our extra trees model obtained an RMSE of approx. 19.2 and an R2 score of approx. 0.92. As can be seen our gradient boosting and optimised weighted ensemble models outperform the monthly averages model. The extra trees model is showing possible signs of slightly overfitting on the training data as the performance on the training data is better than the test data, with our gradient boosting model on average we could expect predictions to be off by 15.46 meteres cubed of gas. For comparison against actual gas usage the gradient boosting model predicted a total yearly gas consumption of 949.59 metres cubed and actual gas usage was 955.57 metres cubed, a difference of 5.98. This produces a predicted yearly cost of £408.02 with actual cost equalling £410.68, a difference of £2.66. The gradient boosting model produces a performance increase of 42% over the simple model baseline and a 15% performance increase over the monthly averages model.
 
-*fig. 10*
+*fig. 10, supervised model predictions vs actual gas usage*
 
 ![Alt](visuals/final_model_test.png)
-*suoervised model predictions vs actual gas usage*
 
 ## Conclusion
 The goal of this project was to accurately forecast future gas consumption for household central heating usage from previous years gas consumption. This would give more control to the homeowner by providing insights to their own central heating usage aswell as helping the homeowner to reduce the cost of their gas usage. Future forecasts and gas consumption insights would be provided in the form of an interactive app that the homeowner could use to see future usage/costs aswell as cost thresholding to help the homeowner bring costs down aswell as help the environment, usage metrics will also be provided along side, see fig. 7.
