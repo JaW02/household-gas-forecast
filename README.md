@@ -48,6 +48,7 @@ As can be seen from the autocorrelation plot in fig 6, we can see strong positiv
 
 *Figure 6*
 ![Alt](visuals/autocorrelation.png)
+*data autocorrelation plot*
 
 An initial stationarity test of splitting the data in two then comparing the means and variance showed consistancy in the means and variance, as a first glance it suggests the data is fairly stationary. This was then backed up by the Dickey-Fuller test which tests for stationarity within data, the null hypothesis states that the data is not stationary and the alternative states that the data is stationary. From the test we can say with 99% confidence that the data is stationary with the p-value well below 0.01. Making the data stationary makes it easier for statistical models to model the signal of the data and not the noise, this enables th emodels to make better predictions.
 
@@ -55,6 +56,7 @@ Fig. 7 shows the deomposition of the data, the decomposition splits the data int
 
 *Figure 7*
 ![Alt](visuals/original_decomp.png)
+*decomposition of the data; orignal data, trend, seasonal and residual components respectively*
 
 ## Baseline
 As we have no outliers present in the data RMSE will be a good performance metric to evaluate our models with. Using the average gas usage as a performance baseline we get an RMSE of approx. 83.34, Using the sine and cosine transform of date_month we obtained a simple decision tree model RMSE of approx. 26.62, this means on average we can expect a prediction error of 26.62 meters cubed of gas per month. Using the monthly averages as a model we can produce an RMSE score of 18.22, as can be seen more skill is needed than a simple model to perform better than the monthly averages model. 
@@ -63,7 +65,12 @@ As we have no outliers present in the data RMSE will be a good performance metri
 
 ### *Time Series Modelling*
 
-As the data shows to be extremely cyclical, modelling initially started with fitting a 9th degree polynomial curve to the data. A degree of 9 was chosen through trial and error and the curve approximated the training data fairly well. The next model tested was ARIMA (auto regressive intergrated moving average), after tuning the order parameter the best performing arima model had an autoregressive parameter of 2, integration parameter of 0 and moving average parameter of 5, officially this is the ARMA model. The last time series model tested was prophet, with its simplicity of use the only parameters that were tuned were; changepoint_prior_scale which determines the flexibility of the trend and how much the trend changes and seasonality_prior_scale which controls the flexibility of the seasonality. the optimal inputs for the changepoint and seasonality prior scales were 0.001 and 0.1 respectively.
+As the data shows to be extremely cyclical, modelling initially started with fitting a 9th degree polynomial curve to the data which can be seen in figure 8. A degree of 9 was chosen through trial and error and the curve approximated the training data fairly well. The next model tested was ARIMA (auto regressive intergrated moving average), after tuning the order parameter the best performing arima model had an autoregressive parameter of 2, integration parameter of 0 and moving average parameter of 5, officially this is the ARMA model. The last time series model tested was prophet, with its simplicity of use the only parameters that were tuned were; changepoint_prior_scale which determines the flexibility of the trend and how much the trend changes and seasonality_prior_scale which controls the flexibility of the seasonality. the optimal inputs for the changepoint and seasonality prior scales were 0.001 and 0.1 respectively.
+
+*fig. 8*
+
+![ALt](visuals/polynomial_curve_estimation.png)
+*modelling the data with a polynomial curve*
 
 
 ### *Supervised Modelling*
@@ -78,16 +85,19 @@ Tuning the hyperparameters of our tree based models involved tuning tree specifi
 
 As can be seen in fig. 8, the polynomial curve and prophet model have captured the seasonal trend of gas usage but the ARMA model although capturing the nature of the trend isn't as fitting as the other two models. Evaluating the performance of the models it is evident that the ARMA model performed the worst with an RMSE score of 21.652, the polynomial curve obtained the best RMSE score of 18.45 and R2 score of approx. 0.92. The prophet model obtained an RMSE score of approx. 19.81 and r2 score of approx. 0.91, as can be seen none of the time series models obtained a better RMSE score than the monthly average baseline model.
 
-*fig. 8*
+*fig. 9*
 
+![Alt](visuals/time_series_final_models.png)
+*time series model predictions vs actual gas usage*
 
 ### *Supervised Modelling*
 
 AS can be seen in fig. 9, from the final test on unseen data it is evident that all models have captured the seasonal trend of gas usage and there is not much in it when comparing the models performance. On evaluating the performance of the models our gradient boosting model came out on top with an RMSE of approx. 15.46 and an R2 score of approx. 0.95, our optimised weighted ensemble obtained an RMSE of approx. 17 and an R2 score of approx. 0.94, our extra trees model obtained an RMSE of approx. 19.2 and an R2 score of approx. 0.92. As can be seen our gradient boosting and optimised weighted ensemble models outperform the monthly averages model. The extra trees model is showing possible signs of slightly overfitting on the training data as the performance on the training data is better than the test data, with our gradient boosting model on average we could expect predictions to be off by 15.46 meteres cubed of gas. For comparison against actual gas usage the gradient boosting model predicted a total yearly gas consumption of 949.59 metres cubed and actual gas usage was 955.57 metres cubed, a difference of 5.98. This produces a predicted yearly cost of £408.02 with actual cost equalling £410.68, a difference of £2.66. The gradient boosting model produces a performance increase of 42% over the simple model baseline and a 15% performance increase over the monthly averages model.
 
-*fig. 9*
+*fig. 10*
 
 ![Alt](visuals/final_model_test.png)
+*suoervised model predictions vs actual gas usage*
 
 ## Conclusion
 The goal of this project was to accurately forecast future gas consumption for household central heating usage from previous years gas consumption. This would give more control to the homeowner by providing insights to their own central heating usage aswell as helping the homeowner to reduce the cost of their gas usage. Future forecasts and gas consumption insights would be provided in the form of an interactive app that the homeowner could use to see future usage/costs aswell as cost thresholding to help the homeowner bring costs down aswell as help the environment, usage metrics will also be provided along side, see fig. 7.
@@ -95,7 +105,7 @@ The goal of this project was to accurately forecast future gas consumption for h
 ![Alt](visuals/optimisation_app.png)
 *fig. 7 top left graph shows predicted forecast, cost optimised and live usage. Top right shows live consumption and cost, bar chart shows difference between live usage and cost optimised. Across the bottom shows monthly cost optimised gas amounts, average monthly gas usage amounts and live seasonal usage, average seasonal percentage of use and live seasonal percentage of use.*
 
-Initially the problem was cast as time series modelling but was reworked into a regression problem with the use of lag features and expanding means, this was to see if a better model could be obtained by using more information on the target, this proved to be the best option. It was found that month was the top correlating feature which was to be expected as we are modelling total monthly gas usage and also because it acts as a proxy variable for temperature and season. A simple decision tree model using only the sine and cosine transform of date_month produced an RMSE score of approx. 26.62, the top performing gradient boosting model produced an RMSE score of approx. 15.46, this is an approx. 42% performance increase over the simple model and 15% increase over the monthly averages model. The proposed usage of the final model will be through the accompanied app, the model will forecast future yearly gas usage providing a  future yearly total cost, then using the models forecast a cost thresholding algorithm can be used by the homeowner to help reduce their usage/cost of central heating gas and also using the cost threshold a live adjustment algorithm was developed to help homeowners stay on track with the cost threshold for the rest of the year if they were to over use or under use the central heating gas. This would prove to be beneficial financially for the homeowner as they can keep on top of bills aswell as better the environment as keeping on top of gas usage means potentially cutting down and controlling energy usage.
+Initially the problem was cast as time series modelling but was reworked into a regression problem with the use of lag features and expanding means, this was to see if a better model could be obtained by using more information on the target, this proved to be the best option. It was found that month was the top correlating feature which was to be expected as we are modelling total monthly gas usage and also because it acts as a proxy variable for temperature and season. A simple decision tree model using only the sine and cosine transform of date_month produced an RMSE score of approx. 26.62, the top performing gradient boosting model produced an RMSE score of approx. 15.46, this is an approx. 42% performance increase over the simple model and 15% increase over the monthly averages model. The proposed usage of the final model will be through the accompanied app, the model will forecast future yearly gas usage providing a future yearly total cost, then using the models forecast a cost thresholding algorithm can be used by the homeowner to help reduce their usage/cost of central heating gas and also using the cost threshold a live adjustment algorithm was developed to help homeowners stay on track with the cost threshold for the rest of the year if they were to over use or under use the central heating gas. This would prove to be beneficial financially for the homeowner as they can keep on top of bills aswell as better the environment as keeping on top of gas usage means potentially cutting down and controlling energy usage and carbon emissions.
 
 ## Future Improvements
 A limitation of consolidating data into monthly totals is the reduction in data and therefore more data will be needed for the models to capture monthly gas usage, with that in mind the collection of more data may possibly be beneficial for future modeling as this will allow models to better converge on the underlying trend of gas usage. This was evident when applying cross validation with an expanding window, as more years were included in the window the performance would increase, so with the inclusion of more data we could expect an increase in performance. 
