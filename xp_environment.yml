@@ -1,0 +1,39 @@
+name: gas_usage_forecast
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - pip
+  - python=3.8
+  - pandas==1.2.4
+  - jupyter
+  - numpy==1.19.2
+  - seaborn==0.11.1
+  - matplotlib==3.3.4
+  - statsmodels==0.12.2
+  - scikit-learn==0.24.1
+  - fbprophet==0.7.1
+  - scipy==1.6.2
+  - sklearn-contrib-py-earth==0.1.0
+  - lightgbm==3.1.1
+  - joblib==1.0.1
+  - tensorflow==2.3.0
+  - keras==2.4.3
+  - keras-tuner==1.0.1
+  - ngboost
+  - plotly
+  - jupyter_contrib_nbextensions
+  - autopep8
+  - jupyter-dash
+  - dash-bootstrap-components
+  - pip:
+    - cloudpickle==1.6.0
+    - dython==0.6.3
+    - hyperopt==0.2.5
+    - networkx==2.5.1
+    - pmdarima==1.8.2
+    - progressbar2==3.53.1
+    - pygam==0.8.0
+    - python-utils==2.5.6
+    - xgboost==1.4.0
+
