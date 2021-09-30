@@ -2,6 +2,8 @@
 
 For the project notebook please see [gas_usage_forecast.ipynb](https://github.com/JaW02/household-gas-forecast/blob/main/gas_usage_forecast.ipynb)
 
+For the data to run the notebook please see [datasets](https://github.com/JaW02/household-gas-forecast/tree/main/datasets)
+
 For the cross platform conda environment to run the notebook please see [xp_environment.yml](https://github.com/JaW02/household-gas-forecast/blob/main/xp_environment.yml)
 
 ## Introduction
