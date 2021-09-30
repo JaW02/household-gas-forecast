@@ -2,6 +2,8 @@
 
 For the project notebook please see [gas_usage_forecast.ipynb](https://github.com/JaW02/household-gas-forecast/blob/main/gas_usage_forecast.ipynb)
 
+For the cross platform conda environment to run the notebook please see [xp_environment.yml](https://github.com/JaW02/household-gas-forecast/blob/main/xp_environment.yml)
+
 ## Introduction
 No one likes the surprise of opening their latest energy bill to find that the cost is increasing because the latest energy readings show a rise in consumption. This all being a common scenario, but if we can leverage the data of our past gas consumption then we can gain the ability to stay on top of the amount of future gas we use (providing the non occurence of black swan events e.g. a blistering heatwave in mid winter), therefore no nasty surprises in the post. Furthermore if we utilise the future gas forecast to enable us to apply a cost threshold to the amount of gas we consume, we can then have the ability to cut the costs and amount of gas we use bringing energy bills down and also doing our bit for the environment.
 
